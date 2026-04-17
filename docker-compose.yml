@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # 1. The Database Service
+  mysqldb:
+    image: mysql:8.0
+    container_name: todo-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=tododb
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # 2. The Spring Boot Application Service
+  todo-app:
+    build: .  # Build the Dockerfile in the current directory
+    container_name: todo-app
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080
+    depends_on:
+      - mysqldb # Wait for DB to start before starting app
+    environment:
+      - SPRING_DATASOURCE_URL=${DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - API_SECURITY_TOKEN_SECRET=${JWT_SECRET}
+
+volumes:
+  db_data:
