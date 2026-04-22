@@ -65,7 +65,7 @@ public class TaskService {
     public TaskResponseDTO updateCompleted(Long id) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Task not found with id " + id));
-        task.setCompleted(!task.getCompleted());
+        task.setCompleted(!task.isCompleted());
         taskRepository.save(task);
 
         return convertToResponseDTO(task);
@@ -80,7 +80,7 @@ public class TaskService {
         dto.setId(task.getId());
         dto.setTitle(task.getTitle());
         dto.setDescription(task.getDescription());
-        dto.setCompleted(task.getCompleted());
+        dto.setCompleted(task.isCompleted());
         dto.setDueDate(task.getDueDate());
         dto.setCreatedAt(task.getCreatedAt());
         dto.setUpdatedAt(task.getUpdatedAt());

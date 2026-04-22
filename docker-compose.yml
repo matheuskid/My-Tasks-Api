@@ -23,7 +23,7 @@ services:
     depends_on:
       - mysqldb # Wait for DB to start before starting app
     environment:
-      - SPRING_DATASOURCE_URL=${DB_URL}
+      - SPRING_DATASOURCE_URL=jdbc:${DB_URL}
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - API_SECURITY_TOKEN_SECRET=${JWT_SECRET}
